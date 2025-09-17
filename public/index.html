@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday To My Special Friend!</title>
+    <link rel="icon" type="image/jpeg" href="birthday-wish/img/comfort.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #500000 0%, #200000 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .redirect-btn {
+            background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .redirect-btn:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .redirect-btn:hover:before {
+            left: 100%;
+        }
+
+        .redirect-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(to right, #ff8e8e, #ff6b6b);
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Envelope styling */
+        .envelope-container {
+            margin: 0 auto;
+            width: 90%;
+            max-width: 600px;
+            height: auto;
+            aspect-ratio: 3/2;
+            position: relative;
+            z-index: 10;
+            perspective: 1000px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .envelope:hover:not(.open) {
+            transform: translateY(-5px) rotateX(5deg);
+        }
+
+        .envelope-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, maroon, #600000);
+            border-radius: 15px;
+            z-index: 3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transform-origin: bottom;
+            backface-visibility: hidden;
+            padding: 20px;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #800000, #a00000);
+            clip-path: polygon(0 0, 100% 0, 50% 50%);
+            border-radius: 15px;
+            z-index: 4;
+            transform-origin: top;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .envelope-content {
+            position: absolute;
+            width: 95%;
+            height: 95%;
+            background: white;
+            border-radius: 12px;
+            z-index: 2;
+            left: 2.5%;
+            top: 2.5%;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px) rotateX(5deg);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            overflow-y: auto;
+            max-height: 95%;
+            backface-visibility: hidden;
+        }
+
+        .envelope.open {
+            transform: translateY(-20px) rotateX(-10deg);
+        }
+
+        .envelope.open .envelope-front {
+            transform: rotateX(-150deg) translateY(-20px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg) translateY(-10px);
+        }
+
+        .envelope.open .envelope-content {
+            opacity: 1;
+            transform: translateY(0) rotateX(0);
+        }
+
+        .envelope-text {
+            color: white;
+            font-weight: bold;
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .envelope-instruction {
+            margin-top: 10px;
+            font-size: clamp(0.8rem, 3vw, 1rem);
+            color: rgba(255, 255, 255, 0.9);
+            animation: pulse 2s infinite;
+        }
+
+        /* Card content inside envelope */
+        h1 {
+            font-size: clamp(1.8rem, 6vw, 2.5rem);
+            margin-bottom: 15px;
+            color: maroon;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(to right, maroon, #ff4081);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: colorShift 5s infinite alternate;
+        }
+
+        h2 {
+            font-size: clamp(1.4rem, 4.5vw, 1.8rem);
+            margin-bottom: 12px;
+            color: black;
+        }
+
+        p {
+            font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+            line-height: 1.5;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .message {
+            background: rgba(128, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 5px solid maroon;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .message:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: translateX(-100%);
+            animation: shimmer 3s infinite;
+        }
+
+        .cake-container {
+            margin: 15px auto;
+            width: 150px;
+            height: 120px;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .cake {
+            position: relative;
+            width: 140px;
+            height: 90px;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+            transform: rotateX(20deg);
+            animation: cakeBounce 3s infinite alternate;
+        }
+
+        .cake-base {
+            position: absolute;
+            bottom: 0;
+            width: 140px;
+            height: 40px;
+            background: maroon;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cake-middle {
+            position: absolute;
+            bottom: 40px;
+            left: 12px;
+            width: 115px;
+            height: 25px;
+            background: #600000;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cake-top {
+            position: absolute;
+            bottom: 65px;
+            left: 22px;
+            width: 95px;
+            height: 20px;
+            background: #a00000;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .candle {
+            position: absolute;
+            bottom: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 20px;
+            background: black;
+            z-index: 10;
+            border-radius: 3px;
+        }
+
+        .flame {
+            position: absolute;
+            bottom: 105px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 16px;
+            background: #ff9800;
+            border-radius: 50% 50% 20% 20%;
+            animation: flicker 1.5s infinite alternate;
+            box-shadow: 0 0 12px #ff9800;
+        }
+
+        .decoration {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+            border: 2px solid black;
+            animation: sparkle 2s infinite alternate;
+        }
+
+        .decoration:nth-child(1) { bottom: 50px; left: 20px; animation-delay: 0.2s; }
+        .decoration:nth-child(2) { bottom: 50px; right: 20px; animation-delay: 0.4s; }
+        .decoration:nth-child(3) { bottom: 58px; left: 38px; animation-delay: 0.6s; }
+        .decoration:nth-child(4) { bottom: 58px; right: 38px; animation-delay: 0.8s; }
+
+        .balloons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .balloon {
+            width: 35px;
+            height: 45px;
+            border-radius: 50%;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+            background: maroon;
+            border: 2px solid black;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .balloon:before {
+            content: "";
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 20px;
+            background: black;
+        }
+
+        .balloon:nth-child(1) { animation-delay: 0s; background: linear-gradient(maroon, #ff4081); }
+        .balloon:nth-child(2) { animation-delay: 1s; background: linear-gradient(black, #333); }
+        .balloon:nth-child(3) { animation-delay: 2s; background: linear-gradient(white, #eee); border: 2px solid maroon; }
+        .balloon:nth-child(4) { animation-delay: 3s; background: linear-gradient(maroon, #ff4081); }
+
+        .wishes-btn {
+            background: linear-gradient(to right, maroon, #ff4081);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: clamp(0.9rem, 3.5vw, 1rem);
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 12px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border: 2px solid black;
+            position: relative;
+            overflow: hidden;
+            width: 90%;
+            max-width: 300px;
+        }
+
+        .wishes-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(to right, #600000, #e91e63);
+        }
+
+        .wishes-btn:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .wishes-btn:hover:before {
+            left: 100%;
+        }
+
+        .wishes-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: rgba(128, 0, 0, 0.1);
+            border-radius: 12px;
+            margin: 12px 0;
+            padding: 0 12px;
+            border-left: 4px solid maroon;
+            width: 100%;
+        }
+
+        .wishes-container.show {
+            max-height: 400px;
+            padding: 12px;
+        }
+
+        .wishes-container p {
+            font-size: clamp(0.9rem, 3.5vw, 1rem);
+            color: #333;
+            margin: 10px 0;
+            text-align: left;
+            padding-left: 12px;
+            border-left: 3px solid maroon;
+            position: relative;
+        }
+
+        .wishes-container p:before {
+            content: "❤";
+            position: absolute;
+            left: -8px;
+            color: maroon;
+            font-size: 0.8em;
+        }
+
+        .footer {
+            margin-top: 15px;
+            color: maroon;
+            font-weight: bold;
+            font-size: clamp(0.9rem, 3.5vw, 1rem);
+        }
+
+        .confetti {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            opacity: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            background: maroon;
+            color: white;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            z-index: 5;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .close-btn:hover {
+            background: #600000;
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            color: rgba(255, 0, 0, 0.5);
+            animation: floatHeart 10s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; height: 16px; }
+            50% { opacity: 0.8; height: 14px; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes colorShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+
+        @keyframes cakeBounce {
+            0%, 100% { transform: rotateX(20deg) translateY(0); }
+            50% { transform: rotateX(20deg) translateY(-4px); }
+        }
+
+        @keyframes shimmer {
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes floatHeart {
+            0% {
+                top: 100%;
+                opacity: 1;
+            }
+            100% {
+                top: -20%;
+                opacity: 0;
+            }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .envelope-container {
+                width: 85vw;
+                max-width: 400px;
+            }
+            
+            .envelope-content {
+                padding: 12px;
+            }
+            
+            .message {
+                padding: 12px;
+            }
+            
+            .cake-container {
+                transform: scale(0.9);
+            }
+            
+            .balloon {
+                width: 30px;
+                height: 40px;
+            }
+            
+            .redirect-btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .envelope-container {
+                width: 90vw;
+                max-width: 350px;
+            }
+            
+            .envelope-content {
+                padding: 10px;
+            }
+            
+            .message {
+                padding: 10px;
+                margin: 10px 0;
+            }
+            
+            .cake-container {
+                transform: scale(0.8);
+                margin: 10px auto;
+            }
+            
+            .balloons {
+                gap: 8px;
+                margin: 10px 0;
+            }
+            
+            .balloon {
+                width: 28px;
+                height: 36px;
+            }
+            
+            .wishes-btn {
+                padding: 8px 16px;
+                margin: 10px 0;
+            }
+            
+            .wishes-container {
+                margin: 10px 0;
+                padding: 0 10px;
+            }
+            
+            .wishes-container.show {
+                padding: 10px;
+            }
+            
+            .wishes-container p {
+                margin: 8px 0;
+                padding-left: 10px;
+            }
+            
+            .footer {
+                margin-top: 12px;
+            }
+            
+            .close-btn {
+                top: 5px;
+                right: 8px;
+                width: 22px;
+                height: 22px;
+                font-size: 0.9rem;
+            }
+            
+            .redirect-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .envelope-container {
+                width: 95vw;
+                max-width: 300px;
+            }
+            
+            .envelope-content {
+                padding: 8px;
+            }
+            
+            .cake-container {
+                transform: scale(0.7);
+            }
+            
+            .balloon {
+                width: 25px;
+                height: 32px;
+            }
+            
+            .wishes-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .redirect-btn {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Prevent horizontal scrolling */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="floating-hearts" id="heartsContainer"></div>
+        <div class="envelope-container">
+            <div class="envelope" id="envelope">
+                <div class="envelope-flap"></div>
+                <div class="envelope-front">
+                    <div class="envelope-text">
+                        <i class="fas fa-envelope-open-text fa-2x"></i>
+                        <p>Click to Open Your Birthday Surprise!</p>
+                        <div class="envelope-instruction">✨ Tap the envelope ✨</div>
+                    </div>
+                </div>
+                <div class="envelope-content" id="cardContent">
+                    <button class="close-btn" id="closeBtn" title="Close envelope">×</button>
+                    
+                    <h1>Happy Birthday!</h1>
+                    
+                    <div class="balloons">
+                        <div class="balloon"></div>
+                        <div class="balloon"></div>
+                        <div class="balloon"></div>
+                        <div class="balloon"></div>
+                    </div>
+                    
+                    <div class="cake-container">
+                        <div class="cake">
+                            <div class="cake-base"></div>
+                            <div class="cake-middle"></div>
+                            <div class="cake-top"></div>
+                            <div class="candle"></div>
+                            <div class="flame"></div>
+                            <div class="decoration"></div>
+                            <div class="decoration"></div>
+                            <div class="decoration"></div>
+                            <div class="decoration"></div>
+                        </div>
+                    </div>
+                    
+                    <h2>Hello, Hangin ko.</h2>
+                    
+                    <div class="message">
+                        <p>On your special day, I wanted and hope to remind you how amazing you are!</p>
+                        <p>The laughter we shared, your beautiful spirit make my day brighter, alam mo naman 'yun.</p>
+                        <p>Enjoy ka sa araw na 'to ah? pero syempre, mag-ingat ka pa rin.</p>
+                        <p>Looking forward to more fun times and unforgettable memories with you. Sana magkita tayo, kung pagkikitain.</p>
+                    </div>
+                    
+                    <button class="wishes-btn" id="wishesBtn">
+                        <i class="fas fa-gift"></i> Birthday Wishes
+                    </button>
+                     
+                    <div class="wishes-container" id="wishesContainer">
+                        <p>May your day be filled with joy, laughter, and all the things you love the most!</p>
+                        <p>You deserve all the happiness in the world today and always.</p>
+                        <p>Thank you for being such an incredible friend kahit thru online lang tayo nagkakilala!!!</p>
+                        <p>Here's to another fantastic year of adventures together!</p>
+                        <p style="color: lightcoral;"> <i>Sana hindi mo rin ako ipagpalit kay Tungks 😜</i></p>
+                    </div>
+                    
+                    <div class="footer">
+                        <p>Made with <i class="fas fa-heart" style="color: maroon;"></i> for you</p>
+                    </div>
+
+                    <div>
+                        <button class="redirect-btn" onclick="window.location.href='birthday-wish/index.html'">
+                            <i class="fas fa-folder-open"></i> Open Special Birthday Folder
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const envelope = document.getElementById('envelope');
+            const cardContent = document.getElementById('cardContent');
+            const wishesBtn = document.getElementById('wishesBtn');
+            const wishesContainer = document.getElementById('wishesContainer');
+            const closeBtn = document.getElementById('closeBtn');
+            const heartsContainer = document.getElementById('heartsContainer');
+            
+            // Create floating hearts
+            function createHearts() {
+                for (let i = 0; i < 10; i++) {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.innerHTML = '❤';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDelay = Math.random() * 10 + 's';
+                    heart.style.fontSize = (Math.random() * 1 + 0.8) + 'rem';
+                    heartsContainer.appendChild(heart);
+                }
+            }
+            
+            createHearts();
+            
+            // Create confetti elements
+            for (let i = 0; i < 25; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                cardContent.appendChild(confetti);
+            }
+            
+            // Envelope interaction
+            envelope.addEventListener('click', function(e) {
+                if (e.target === closeBtn) return; // Don't open if clicking close button
+                
+                if (!this.classList.contains('open')) {
+                    this.classList.add('open');
+                    
+                    // Animate confetti when envelope is opened
+                    setTimeout(() => {
+                        const confettiElements = cardContent.querySelectorAll('.confetti');
+                        confettiElements.forEach(confetti => {
+                            confetti.style.opacity = '1';
+                            confetti.style.transition = 'transform 1s ease-out, opacity 1s ease-out';
+                            confetti.style.transform = `translateY(${window.innerHeight}px) rotate(${Math.random() * 360}deg)`;
+                            setTimeout(() => {
+                                confetti.style.opacity = '0';
+                            }, 800);
+                        });
+                    }, 300);
+                }
+            });
+            
+            // Close button functionality
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation(); // Prevent envelope click event
+                envelope.classList.remove('open');
+                wishesContainer.classList.remove('show'); // Also close wishes if open
+            });
+            
+            // Toggle wishes
+            wishesBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                wishesContainer.classList.toggle('show');
+            });
+            
+            // Add touch event for mobile devices
+            envelope.addEventListener('touchstart', function(e) {
+                if (e.target === closeBtn) return;
+                
+                if (!this.classList.contains('open')) {
+                    this.classList.add('open');
+                    
+                    setTimeout(() => {
+                        const confettiElements = cardContent.querySelectorAll('.confetti');
+                        confettiElements.forEach(confetti => {
+                            confetti.style.opacity = '1';
+                            confetti.style.transition = 'transform 1s ease-out, opacity 1s ease-out';
+                            confetti.style.transform = `translateY(${window.innerHeight}px) rotate(${Math.random() * 360}deg)`;
+                            setTimeout(() => {
+                                confetti.style.opacity = '0';
+                            }, 800);
+                        });
+                    }, 300);
+                }
+            });
+
+            // Close wishes when clicking outside on mobile
+            cardContent.addEventListener('click', function(event) {
+                if (wishesContainer.classList.contains('show') &&
+                    !wishesContainer.contains(event.target) &&
+                    event.target !== wishesBtn) {
+                    wishesContainer.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
