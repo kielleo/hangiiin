@@ -713,7 +713,7 @@
 <div class="modal" id="successModal">
     <div class="modal-content">
         <span class="close-modal" id="closeSuccessModal">&times;</span>
-        <img src="happy.gif" alt="Happy GIF" class="modal-gif" />
+        <img src="../img/happy.gif" alt="Happy Celebration" class="modal-gif" />
         <h2>🎉 Wish Sent! 🎉</h2>
         <p>Your birthday wish has been sent successfully!</p>
     </div>
@@ -723,11 +723,12 @@
 <div class="modal" id="errorModal">
     <div class="modal-content">
         <span class="close-modal" id="closeErrorModal">&times;</span>
-        <img src="sad.gif" alt="Sad GIF" class="modal-gif" />
+        <img src="../img/sad.gif" alt="Sad Reaction" class="modal-gif" />
         <h2>⚠️ Oops!</h2>
         <p>There was an error sending your wish.</p>
     </div>
 </div>
+
 
 <!-- Confirmation Modal -->
 <div class="modal" id="confirmModal">
@@ -793,37 +794,34 @@
         userName.addEventListener('input', toggleSendButton);
         wishMessage.addEventListener('input', toggleSendButton);
         
-        // Photo frame click handler
-        photoFrames.forEach(frame => {
-            frame.addEventListener('click', function() {
-                const index = this.getAttribute('data-index');
-                photoInputs[index].click();
-            });
-        });
+// Photo frame click handler
+photoFrames.forEach(frame => {
+    frame.addEventListener('click', function() {
+        const index = parseInt(this.getAttribute('data-index'), 10);
+        photoInputs[index].click();
+    });
+});
+
+// Photo input change handler
+photoInputs.forEach(input => {
+    input.addEventListener('change', function() {
+        const index = parseInt(this.getAttribute('data-index'), 10);
+        const file = this.files[0];
         
-        // Photo input change handler
-        photoInputs.forEach(input => {
-            input.addEventListener('change', function() {
-                const index = this.getAttribute('data-index');
-                const file = this.files[0];
-                
-                if (file) {
-                    const reader = new FileReader();
-                    
-                    reader.onload = function(e) {
-                        const preview = document.getElementById(`preview${index}`);
-                        preview.src = e.target.result;
-                        uploadedImages[index] = e.target.result;
-                        imageNames[index] = file.name;
-                        
-                        // Add class to indicate the frame has an image
-                        photoFrames[index].classList.add('has-image');
-                    }
-                    
-                    reader.readAsDataURL(file);
-                }
-            });
-        });
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById(`preview${index}`);
+                preview.src = e.target.result;
+                preview.parentElement.classList.add("has-image");
+                uploadedImages[index] = e.target.result;
+                imageNames[index] = file.name;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+});
+
         
         // Candle interaction
         candleFlame.addEventListener('click', function() {
