@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Birthday Wishes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .emoji-face {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+.modal-gif {
+    width: 120px;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 12px;
+}
+
+#confirmModal .modal-content {
+    text-align: center;
+}
+#confirmModal button {
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+#confirmYes {
+    background: #4caf50;
+    color: white;
+}
+#confirmNo {
+    background: #f44336;
+    color: white;
+}
+
+.happy-face {
+    animation: bounceFace 1s infinite;
+}
+
+.sad-face {
+    animation: shakeFace 0.6s infinite;
+}
+
+@keyframes bounceFace {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes shakeFace {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+
+        body {
+            background: linear-gradient(135deg, #500000 0%, #200000 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+            color: white;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: twinkle linear infinite;
+        }
+
+        .star-sm { width: 2px; height: 2px; animation-duration: 4s; }
+        .star-md { width: 3px; height: 3px; animation-duration: 5s; }
+        .star-lg { width: 4px; height: 4px; animation-duration: 6s; }
+
+        /* Back Button */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+        }
+
+        /* Header with Animation */
+        .header {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #ff8e8e, #ff6b6b, #ff8e8e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: colorShift 5s infinite alternate;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+        }
+
+        /* Photo Gallery */
+        .photo-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .photo-frame {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: linear-gradient(45deg, #600000, #a00000);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .photo-frame:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .photo-frame .icon {
+            position: absolute;
+        }
+
+        .photo-frame.has-image .icon {
+            display: none;
+        }
+
+        .photo-frame.has-image img {
+            display: block;
+        }
+
+        .photo-input {
+            display: none;
+        }
+
+        /* Memory Timeline */
+        .timeline {
+            position: relative;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px 0;
+        }
+
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ff6b6b, maroon);
+            transform: translateX(-50%);
+        }
+
+        .memory {
+            position: relative;
+            margin-bottom: 40px;
+            width: 45%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .memory:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .memory:nth-child(odd) {
+            left: 0;
+            text-align: right;
+            border-right: 3px solid #ff6b6b;
+        }
+
+        .memory:nth-child(even) {
+            left: 55%;
+            text-align: left;
+            border-left: 3px solid #ff6b6b;
+        }
+
+        .memory:before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ff6b6b;
+            top: 20px;
+        }
+
+        .memory:nth-child(odd):before {
+            right: -32px;
+        }
+
+        .memory:nth-child(even):before {
+            left: -32px;
+        }
+
+        .memory-date {
+            font-size: 0.9rem;
+            color: #ff8e8e;
+            margin-bottom: 5px;
+        }
+
+        .memory-text {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Interactive Cake */
+        .cake-container {
+            margin: 30px auto;
+            width: 200px;
+            height: 180px;
+            position: relative;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .cake {
+            position: relative;
+            width: 180px;
+            height: 120px;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+            transform: rotateX(20deg);
+            transition: transform 0.5s ease;
+        }
+
+        .cake:hover {
+            transform: rotateX(20deg) scale(1.05);
+        }
+
+        .cake-base {
+            position: absolute;
+            bottom: 0;
+            width: 180px;
+            height: 50px;
+            background: maroon;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cake-middle {
+            position: absolute;
+            bottom: 50px;
+            left: 15px;
+            width: 150px;
+            height: 35px;
+            background: #600000;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cake-top {
+            position: absolute;
+            bottom: 85px;
+            left: 30px;
+            width: 120px;
+            height: 30px;
+            background: #a00000;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .candle {
+            position: absolute;
+            bottom: 115px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 25px;
+            background: black;
+            z-index: 10;
+            border-radius: 3px;
+        }
+
+        .flame {
+            position: absolute;
+            bottom: 140px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 20px;
+            background: #ff9800;
+            border-radius: 50% 50% 20% 20%;
+            animation: flicker 1.5s infinite alternate;
+            box-shadow: 0 0 15px #ff9800;
+            cursor: pointer;
+        }
+
+        .decoration {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+            border: 2px solid black;
+            animation: sparkle 2s infinite alternate;
+        }
+
+        .decoration:nth-child(1) { bottom: 65px; left: 25px; animation-delay: 0.2s; }
+        .decoration:nth-child(2) { bottom: 65px; right: 25px; animation-delay: 0.4s; }
+        .decoration:nth-child(3) { bottom: 75px; left: 45px; animation-delay: 0.6s; }
+        .decoration:nth-child(4) { bottom: 75px; right: 45px; animation-delay: 0.8s; }
+
+        /* Wish Form */
+        .wish-form {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .wish-form h3 {
+            margin-bottom: 15px;
+            color: #ff8e8e;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ff8e8e;
+        }
+
+        .wish-input, .name-input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-size: 1rem;
+            resize: none;
+        }
+
+        .wish-btn {
+            background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .wish-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(to right, #ff8e8e, #ff6b6b);
+        }
+
+        .wish-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+
+        /* Balloon Animation */
+        .balloons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .balloon {
+            width: 40px;
+            height: 50px;
+            border-radius: 50%;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .balloon:before {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 25px;
+            background: white;
+        }
+
+        .balloon:nth-child(1) { animation-delay: 0s; background: linear-gradient(#ff6b6b, #ff4081); }
+        .balloon:nth-child(2) { animation-delay: 1s; background: linear-gradient(#2196f3, #03a9f4); }
+        .balloon:nth-child(3) { animation-delay: 2s; background: linear-gradient(#ffeb3b, #ffc107); }
+        .balloon:nth-child(4) { animation-delay: 3s; background: linear-gradient(#4caf50, #8bc34a); }
+        .balloon:nth-child(5) { animation-delay: 4s; background: linear-gradient(#9c27b0, #673ab7); }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #500000 0%, #200000 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #ff8e8e;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 40px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes twinkle {
+            0%, 100% { transform: scale(0.5); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; height: 20px; }
+            50% { opacity: 0.8; height: 18px; }
+        }
+
+        @keyframes colorShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .memory {
+                width: 90%;
+                left: 0 !important;
+                text-align: left !important;
+                border-left: 3px solid #ff6b6b !important;
+                border-right: none !important;
+            }
+            
+            .memory:nth-child(odd):before,
+            .memory:nth-child(even):before {
+                left: -32px;
+                right: auto;
+            }
+            
+            .timeline:before {
+                left: 20px;
+            }
+            
+            .photo-frame {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .photo-frame {
+                width: 100px;
+                height: 100px;
+                font-size: 2rem;
+            }
+            
+            .cake-container {
+                transform: scale(0.9);
+            }
+            
+            .wish-form {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="starsContainer"></div>
+    
+    <a href="../index.html" class="back-btn" aria-label="Go back">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Special Birthday Wishes</h1>
+            <p class="subtitle">For my amazing friend on your special day! 🎉</p>
+        </div>
+        
+        <div class="photo-gallery">
+            <div class="photo-frame" data-index="0">
+                <i class="fas fa-camera icon"></i>
+                <img id="preview0" src="" alt="Uploaded photo">
+                <input type="file" class="photo-input" data-index="0" accept="image/*">
+            </div>
+            <div class="photo-frame" data-index="1">
+                <i class="fas fa-smile icon"></i>
+                <img id="preview1" src="" alt="Uploaded photo">
+                <input type="file" class="photo-input" data-index="1" accept="image/*">
+            </div>
+            <div class="photo-frame" data-index="2">
+                <i class="fas fa-heart icon"></i>
+                <img id="preview2" src="" alt="Uploaded photo">
+                <input type="file" class="photo-input" data-index="2" accept="image/*">
+            </div>
+            <div class="photo-frame" data-index="3">
+                <i class="fas fa-gift icon"></i>
+                <img id="preview3" src="" alt="Uploaded photo">
+                <input type="file" class="photo-input" data-index="3" accept="image/*">
+            </div>
+        </div>
+        
+        <div class="cake-container" id="cake">
+            <div class="cake">
+                <div class="cake-base"></div>
+                <div class="cake-middle"></div>
+                <div class="cake-top"></div>
+                <div class="candle"></div>
+                <div class="flame" id="candleFlame"></div>
+                <div class="decoration"></div>
+                <div class="decoration"></div>
+                <div class="decoration"></div>
+                <div class="decoration"></div>
+            </div>
+        </div>
+        
+        <div class="balloons">
+            <div class="balloon">🎈</div>
+            <div class="balloon">🎉</div>
+            <div class="balloon">🎁</div>
+            <div class="balloon">🎊</div>
+            <div class="balloon">🥳</div>
+        </div>
+        
+        <div class="timeline">
+            <div class="memory">
+                <div class="memory-date">First Meeting</div>
+                <div class="memory-text">The day we first met online and started this amazing friendship!</div>
+            </div>
+            <div class="memory">
+                <div class="memory-date">First Laugh Together</div>
+                <div class="memory-text">That time we couldn't stop laughing about something silly!</div>
+            </div>
+            <div class="memory">
+                <div class="memory-date">Shared Interests</div>
+                <div class="memory-text">Discovering we both love the same things was magical!</div>
+            </div>
+            <div class="memory">
+                <div class="memory-date">Today</div>
+                <div class="memory-text">Celebrating you on your special day! Happy Birthday!</div>
+            </div>
+        </div>
+        
+        <div class="wish-form">
+            <h3>Send a Birthday Wish</h3>
+            <div class="form-group">
+                <label for="userName">Your Name</label>
+                <input type="text" class="name-input" id="userName" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label for="wishMessage">Your Birthday Wish</label>
+                <textarea class="wish-input" id="wishMessage" rows="4" placeholder="Type your birthday wish here..."></textarea>
+            </div>
+            <button class="wish-btn" id="wishBtn" disabled>Send Wish! 🎂</button>
+        </div>
+        
+        <div class="footer">
+            <p>Made with ❤️ for your special day | Happy Birthday!</p>
+        </div>
+    </div>
+
+<!-- Success Modal -->
+<div class="modal" id="successModal">
+    <div class="modal-content">
+        <span class="close-modal" id="closeSuccessModal">&times;</span>
+        <img src="happy.gif" alt="Happy GIF" class="modal-gif" />
+        <h2>🎉 Wish Sent! 🎉</h2>
+        <p>Your birthday wish has been sent successfully!</p>
+    </div>
+</div>
+
+<!-- Error Modal -->
+<div class="modal" id="errorModal">
+    <div class="modal-content">
+        <span class="close-modal" id="closeErrorModal">&times;</span>
+        <img src="sad.gif" alt="Sad GIF" class="modal-gif" />
+        <h2>⚠️ Oops!</h2>
+        <p>There was an error sending your wish.</p>
+    </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal" id="confirmModal">
+    <div class="modal-content">
+        <h2>✉️ Send this wish?</h2>
+        <p>Are you sure you want to send your birthday wish?</p>
+        <button id="confirmYes">Yes, Send</button>
+        <button id="confirmNo">Cancel</button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize EmailJS with your public key
+        emailjs.init("Us2VDUo8xb_yQcUaf");
+        
+        const starsContainer = document.getElementById('starsContainer');
+        const candleFlame = document.getElementById('candleFlame');
+        const cakeContainer = document.getElementById('cake');
+        const wishBtn = document.getElementById('wishBtn');
+        const wishMessage = document.getElementById('wishMessage');
+        const userName = document.getElementById('userName');
+        const photoFrames = document.querySelectorAll('.photo-frame');
+        const photoInputs = document.querySelectorAll('.photo-input');
+        const successModal = document.getElementById('successModal');
+        const errorModal = document.getElementById('errorModal');
+        const closeSuccessModal = document.getElementById('closeSuccessModal');
+        const closeErrorModal = document.getElementById('closeErrorModal');
+        
+        let uploadedImages = [null, null, null, null];
+        let imageNames = ["", "", "", ""];
+        
+        // Create stars
+        function createStars() {
+            const numberOfStars = 50;
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 4}s`;
+                const size = Math.random();
+                if (size < 0.3) {
+                    star.classList.add('star-sm');
+                } else if (size < 0.7) {
+                    star.classList.add('star-md');
+                } else {
+                    star.classList.add('star-lg');
+                }
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Enable/disable send button based on input
+        function toggleSendButton() {
+            if (userName.value.trim() !== '' && wishMessage.value.trim() !== '') {
+                wishBtn.disabled = false;
+            } else {
+                wishBtn.disabled = true;
+            }
+        }
+        
+        userName.addEventListener('input', toggleSendButton);
+        wishMessage.addEventListener('input', toggleSendButton);
+        
+        // Photo frame click handler
+        photoFrames.forEach(frame => {
+            frame.addEventListener('click', function() {
+                const index = this.getAttribute('data-index');
+                photoInputs[index].click();
+            });
+        });
+        
+        // Photo input change handler
+        photoInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                const index = this.getAttribute('data-index');
+                const file = this.files[0];
+                
+                if (file) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const preview = document.getElementById(`preview${index}`);
+                        preview.src = e.target.result;
+                        uploadedImages[index] = e.target.result;
+                        imageNames[index] = file.name;
+                        
+                        // Add class to indicate the frame has an image
+                        photoFrames[index].classList.add('has-image');
+                    }
+                    
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+        
+        // Candle interaction
+        candleFlame.addEventListener('click', function() {
+            this.style.animation = 'none';
+            this.style.backgroundColor = '#aaa';
+            this.style.boxShadow = 'none';
+            setTimeout(() => {
+                this.style.animation = 'flicker 1.5s infinite alternate';
+                this.style.backgroundColor = '#ff9800';
+                this.style.boxShadow = '0 0 15px #ff9800';
+            }, 2000);
+        });
+        
+        // Cake interaction
+        cakeContainer.addEventListener('click', function() {
+            this.classList.toggle('active');
+            // Create floating text effect
+            const wishText = document.createElement('div');
+            wishText.textContent = 'Happy Birthday!';
+            wishText.style.position = 'absolute';
+            wishText.style.color = '#ff6b6b';
+            wishText.style.fontWeight = 'bold';
+            wishText.style.fontSize = '1.5rem';
+            wishText.style.pointerEvents = 'none';
+            wishText.style.animation = 'bounce 1s forwards';
+            wishText.style.left = '50%';
+            wishText.style.top = '50%';
+            wishText.style.transform = 'translate(-50%, -50%)';
+            this.appendChild(wishText);
+            
+            setTimeout(() => {
+                wishText.remove();
+            }, 1000);
+        });
+        
+        // Wish button interaction
+        wishBtn.addEventListener('click', function() {
+            if (userName.value.trim() !== '' && wishMessage.value.trim() !== '') {
+                sendEmail();
+            }
+        });
+        
+        const confirmModal = document.getElementById("confirmModal");
+const confirmYes = document.getElementById("confirmYes");
+const confirmNo = document.getElementById("confirmNo");
+
+wishBtn.addEventListener("click", function () {
+    confirmModal.style.display = "flex"; // show confirmation modal
+});
+
+// If user confirms
+confirmYes.addEventListener("click", function () {
+    confirmModal.style.display = "none"; // close confirmation
+    wishBtn.disabled = true;
+
+    const templateParams = {
+        user_name: userName.value,
+        message: wishMessage.value,
+    };
+
+    emailjs.send("service_cvr97qd", "template_4yhpcv9", templateParams)
+        .then(function (response) {
+            successModal.style.display = "flex"; // show happy GIF
+        }, function (error) {
+            errorModal.style.display = "flex"; // show sad GIF
+        })
+        .finally(() => {
+            wishBtn.disabled = false;
+        });
+});
+
+// If user cancels
+confirmNo.addEventListener("click", function () {
+    confirmModal.style.display = "none";
+});
+
+        // Balloon interaction
+        const balloons = document.querySelectorAll('.balloon');
+        balloons.forEach(balloon => {
+            balloon.addEventListener('click', function() {
+                this.style.animation = 'none';
+                this.style.transform = 'translateY(-100vh)';
+                this.style.opacity = '0';
+                this.style.transition = 'all 2s ease';
+                
+                setTimeout(() => {
+                    this.style.animation = 'float 6s ease-in-out infinite';
+                    this.style.transform = 'translateY(0)';
+                    this.style.opacity = '1';
+                    this.style.transition = 'none';
+                }, 3000);
+            });
+        });
+        
+        // Modal close handlers
+        closeSuccessModal.addEventListener('click', function() {
+            successModal.style.display = 'none';
+        });
+        
+        closeErrorModal.addEventListener('click', function() {
+            errorModal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target === successModal) {
+                successModal.style.display = 'none';
+            }
+            if (event.target === errorModal) {
+                errorModal.style.display = 'none';
+            }
+        });
+        
+        // Send email using EmailJS
+        function sendEmail() {
+            wishBtn.disabled = true;
+            wishBtn.textContent = 'Sending...';
+            
+            // Count how many images were uploaded
+            const imageCount = uploadedImages.filter(img => img !== null).length;
+            
+            // Prepare template parameters
+            const templateParams = {
+                to_name: "Clarkielle",
+                from_name: userName.value,
+                message: wishMessage.value,
+                reply_to: "miraclark71@gmail.com",
+                image_count: imageCount,
+                images: imageCount > 0 ? "Yes" : "No"
+            };
+            
+            // Send email
+            emailjs.send('service_cvr97qd', 'template_4yhpcv9', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    successModal.style.display = 'flex';
+                    wishMessage.value = '';
+                    userName.value = '';
+                    
+                    // Reset photo frames
+                    photoFrames.forEach((frame, index) => {
+                        frame.classList.remove('has-image');
+                        uploadedImages[index] = null;
+                        imageNames[index] = "";
+                        document.getElementById(`preview${index}`).src = '';
+                    });
+                })
+                .catch(function(error) {
+                    console.log('FAILED...', error);
+                    errorModal.style.display = 'flex';
+                })
+                .finally(function() {
+                    wishBtn.disabled = false;
+                    wishBtn.textContent = 'Send Wish! 🎂';
+                });
+        }
+        
+        createStars();
+    });
+</script>
+</body>
+</html>
