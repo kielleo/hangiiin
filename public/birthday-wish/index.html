@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Special Birthday Wishes</title>
+    <link rel="icon" type="image/png" href="birthday-wish/img/comfort.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
     <style>
@@ -15,56 +16,55 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .emoji-face {
-    font-size: 3rem;
-    margin-bottom: 15px;
-    display: inline-block;
-}
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
 
-.modal-gif {
-    width: 120px;
-    height: auto;
-    margin-bottom: 15px;
-    border-radius: 12px;
-}
+        .modal-gif {
+            width: 120px;
+            height: auto;
+            margin-bottom: 15px;
+            border-radius: 12px;
+        }
 
-#confirmModal .modal-content {
-    text-align: center;
-}
-#confirmModal button {
-    margin: 10px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-#confirmYes {
-    background: #4caf50;
-    color: white;
-}
-#confirmNo {
-    background: #f44336;
-    color: white;
-}
+        #confirmModal .modal-content {
+            text-align: center;
+        }
+        #confirmModal button {
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        #confirmYes {
+            background: #4caf50;
+            color: white;
+        }
+        #confirmNo {
+            background: #f44336;
+            color: white;
+        }
 
-.happy-face {
-    animation: bounceFace 1s infinite;
-}
+        .happy-face {
+            animation: bounceFace 1s infinite;
+        }
 
-.sad-face {
-    animation: shakeFace 0.6s infinite;
-}
+        .sad-face {
+            animation: shakeFace 0.6s infinite;
+        }
 
-@keyframes bounceFace {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
+        @keyframes bounceFace {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
 
-@keyframes shakeFace {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-}
-
+        @keyframes shakeFace {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
 
         body {
             background: linear-gradient(135deg, #500000 0%, #200000 100%);
@@ -127,9 +127,36 @@
             transform: scale(1.1);
         }
 
+        /* Music Control Button */
+        #audioControl {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #audioControl:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
         /* Main Container */
         .container {
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             text-align: center;
             position: relative;
@@ -389,6 +416,129 @@
         .decoration:nth-child(3) { bottom: 75px; left: 45px; animation-delay: 0.6s; }
         .decoration:nth-child(4) { bottom: 75px; right: 45px; animation-delay: 0.8s; }
 
+        /* Music Album Section */
+        .music-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .music-section h3 {
+            margin-bottom: 15px;
+            color: #ff8e8e;
+        }
+
+        .album-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .album-cover {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .album-cover:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .album-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .album-cover:hover .album-overlay {
+            opacity: 1;
+        }
+
+        .play-icon {
+            color: white;
+            font-size: 2rem;
+        }
+
+        .music-player {
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .player-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .player-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .player-btn.play-pause {
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+        }
+
+        .song-info {
+            margin-top: 10px;
+            color: #ff8e8e;
+        }
+
+        .song-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .song-artist {
+            font-size: 0.9rem;
+        }
+
         /* Wish Form */
         .wish-form {
             background: rgba(255, 255, 255, 0.1);
@@ -529,6 +679,17 @@
             color: #ff8e8e;
         }
 
+        /* Confetti Canvas */
+        #confettiCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
         /* Footer */
         .footer {
             margin-top: 40px;
@@ -591,6 +752,11 @@
                 width: 120px;
                 height: 120px;
             }
+            
+            .album-cover {
+                width: 100px;
+                height: 100px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -611,20 +777,47 @@
             .wish-form {
                 padding: 15px;
             }
+            
+            .album-cover {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .player-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+            
+            .player-btn.play-pause {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="stars" id="starsContainer"></div>
+    <canvas id="confettiCanvas"></canvas>
+    
+    <audio id="birthdayMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-ukulele.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
     
     <a href="../index.html" class="back-btn" aria-label="Go back">
         <i class="fas fa-arrow-left"></i>
     </a>
     
+    <button id="audioControl" aria-label="Play/Pause Music">
+        <i class="fas fa-music"></i>
+    </button>
+    
     <div class="container">
         <div class="header">
             <h1>Special Birthday Wishes</h1>
-            <p class="subtitle">For my amazing friend on your special day! 🎉</p>
+            <p class="subtitle">For my amazing friend on your special day!</p>
         </div>
         
         <div class="photo-gallery">
@@ -672,33 +865,85 @@
             <div class="balloon">🥳</div>
         </div>
         
+        <!-- Music Album Section -->
+        <div class="music-section">
+            <h3>Calalily Music Collection</h3>
+            <p>Enjoy these songs from Calalily on your special day!</p>
+            
+            <div class="album-container">
+                <div class="album-cover" data-song="https://www.bensound.com/bensound-music/bensound-ukulele.mp3">
+                    <!-- <img src="https://via.placeholder.com/120x120/500000/ffffff?text=Magbalik" alt="Magbalik"> -->
+                    <div class="album-overlay">
+                        <i class="fas fa-play play-icon"></i>
+                    </div>
+                </div>
+                <div class="album-cover" data-song="https://www.bensound.com/bensound-music/bensound-happyrock.mp3">
+                    <!-- <img src="https://via.placeholder.com/120x120/500000/ffffff?text=Pasensya" alt="Pasensya Ka Na"> -->
+                    <div class="album-overlay">
+                        <i class="fas fa-play play-icon"></i>
+                    </div>
+                </div>
+                <div class="album-cover" data-song="https://www.bensound.com/bensound-music/bensound-jazzyfrenchy.mp3">
+                    <!-- <img src="https://via.placeholder.com/120x120/500000/ffffff?text=Minamahal" alt="Minamahal"> -->
+                    <div class="album-overlay">
+                        <i class="fas fa-play play-icon"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="music-player">
+                <div class="player-controls">
+                    <button class="player-btn prev-btn">
+                        <i class="fas fa-step-backward"></i>
+                    </button>
+                    <button class="player-btn play-pause">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="player-btn next-btn">
+                        <i class="fas fa-step-forward"></i>
+                    </button>
+                </div>
+                <div class="song-info">
+                    <div class="song-title">Select a song to play</div>
+                    <div class="song-artist">Calalily</div>
+                </div>
+            </div>
+        </div>
+        
         <div class="timeline">
             <div class="memory">
                 <div class="memory-date">First Meeting</div>
-                <div class="memory-text">The day we first met online and started this amazing friendship!</div>
+                <div class="memory-text">Our first meeting was also our first laugh, ang cute 'no? My entry for our "firsts" was the reason why we're still talking...!</div>
             </div>
             <div class="memory">
                 <div class="memory-date">First Laugh Together</div>
-                <div class="memory-text">That time we couldn't stop laughing about something silly!</div>
+                <div class="memory-text">Of course hindi ko 'to makakalimutan, 'yung na-cute-an ako sa trail mo HAHAHAHA tapos pinatay kita, nag sorry naman ako kaya patawarin mo na ako, at least, 'di ba?!!!!</div>
             </div>
             <div class="memory">
                 <div class="memory-date">Shared Interests</div>
-                <div class="memory-text">Discovering we both love the same things was magical!</div>
+                <div class="memory-text">Ano ba shared interests natin? Hmmmm... Siguro 'yung mapanood mo akong mamatay kahit ikaw naman pumapatay sa'kin, while mine is mapanood kang mahuli HAHAHAHA</div>
             </div>
             <div class="memory">
                 <div class="memory-date">Today</div>
                 <div class="memory-text">Celebrating you on your special day! Happy Birthday!</div>
             </div>
+            <div class="memory">
+                <div class="memory-date">For tomorrow</div>
+                <div class="memory-text">I hope we still continue being friends, sana hindi mo na ulit ako iwan dito jusko ka, kakalbuhin kita eh. 
+                    Kidding aside, Thank you for your company and enjoy your day, always, and forever.
+                </div>
+            </div>
         </div>
         
         <div class="wish-form">
-            <h3>Send a Birthday Wish</h3>
+            <h3>Send your Birthday Wish</h3>
+            <h6>Who knows, Santa might take consider it... </h6>
             <div class="form-group">
-                <label for="userName">Your Name</label>
+                <label for="userName">Kind ma'am, might I ask what your name might be?</label>
                 <input type="text" class="name-input" id="userName" placeholder="Enter your name">
             </div>
             <div class="form-group">
-                <label for="wishMessage">Your Birthday Wish</label>
+                <label for="wishMessage">Your Birthday Wish (anything will do)</label>
                 <textarea class="wish-input" id="wishMessage" rows="4" placeholder="Type your birthday wish here..."></textarea>
             </div>
             <button class="wish-btn" id="wishBtn" disabled>Send Wish! 🎂</button>
@@ -709,278 +954,473 @@
         </div>
     </div>
 
-<!-- Success Modal -->
-<div class="modal" id="successModal">
-    <div class="modal-content">
-        <span class="close-modal" id="closeSuccessModal">&times;</span>
-        <img src="../img/happy.gif" alt="Happy Celebration" class="modal-gif" />
-        <h2>🎉 Wish Sent! 🎉</h2>
-        <p>Your birthday wish has been sent successfully!</p>
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeSuccessModal">&times;</span>
+            <div class="emoji-face happy-face">😊</div>
+            <h2>🎉 Wish Sent! 🎉</h2>
+            <p>Your birthday wish has been sent successfully!</p>
+        </div>
     </div>
-</div>
 
-<!-- Error Modal -->
-<div class="modal" id="errorModal">
-    <div class="modal-content">
-        <span class="close-modal" id="closeErrorModal">&times;</span>
-        <img src="../img/sad.gif" alt="Sad Reaction" class="modal-gif" />
-        <h2>⚠️ Oops!</h2>
-        <p>There was an error sending your wish.</p>
+    <!-- Error Modal -->
+    <div class="modal" id="errorModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeErrorModal">&times;</span>
+            <div class="emoji-face sad-face">😢</div>
+            <h2>⚠️ Oops!</h2>
+            <p>There was an error sending your wish.</p>
+        </div>
     </div>
-</div>
 
-
-<!-- Confirmation Modal -->
-<div class="modal" id="confirmModal">
-    <div class="modal-content">
-        <h2>✉️ Send this wish?</h2>
-        <p>Are you sure you want to send your birthday wish?</p>
-        <button id="confirmYes">Yes, Send</button>
-        <button id="confirmNo">Cancel</button>
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <h2>✉️ Send this wish?</h2>
+            <p>Are you sure you want to send your birthday wish?</p>
+            <button id="confirmYes">Yes, Send</button>
+            <button id="confirmNo">Cancel</button>
+        </div>
     </div>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize EmailJS with your public key
-        emailjs.init("Us2VDUo8xb_yQcUaf");
-        
-        const starsContainer = document.getElementById('starsContainer');
-        const candleFlame = document.getElementById('candleFlame');
-        const cakeContainer = document.getElementById('cake');
-        const wishBtn = document.getElementById('wishBtn');
-        const wishMessage = document.getElementById('wishMessage');
-        const userName = document.getElementById('userName');
-        const photoFrames = document.querySelectorAll('.photo-frame');
-        const photoInputs = document.querySelectorAll('.photo-input');
-        const successModal = document.getElementById('successModal');
-        const errorModal = document.getElementById('errorModal');
-        const closeSuccessModal = document.getElementById('closeSuccessModal');
-        const closeErrorModal = document.getElementById('closeErrorModal');
-        
-        let uploadedImages = [null, null, null, null];
-        let imageNames = ["", "", "", ""];
-        
-        // Create stars
-        function createStars() {
-            const numberOfStars = 50;
-            for (let i = 0; i < numberOfStars; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.top = `${Math.random() * 100}%`;
-                star.style.animationDelay = `${Math.random() * 4}s`;
-                const size = Math.random();
-                if (size < 0.3) {
-                    star.classList.add('star-sm');
-                } else if (size < 0.7) {
-                    star.classList.add('star-md');
-                } else {
-                    star.classList.add('star-lg');
-                }
-                starsContainer.appendChild(star);
-            }
-        }
-        
-        // Enable/disable send button based on input
-        function toggleSendButton() {
-            if (userName.value.trim() !== '' && wishMessage.value.trim() !== '') {
-                wishBtn.disabled = false;
-            } else {
-                wishBtn.disabled = true;
-            }
-        }
-        
-        userName.addEventListener('input', toggleSendButton);
-        wishMessage.addEventListener('input', toggleSendButton);
-        
-// Photo frame click handler
-photoFrames.forEach(frame => {
-    frame.addEventListener('click', function() {
-        const index = parseInt(this.getAttribute('data-index'), 10);
-        photoInputs[index].click();
-    });
-});
-
-// Photo input change handler
-photoInputs.forEach(input => {
-    input.addEventListener('change', function() {
-        const index = parseInt(this.getAttribute('data-index'), 10);
-        const file = this.files[0];
-        
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const preview = document.getElementById(`preview${index}`);
-                preview.src = e.target.result;
-                preview.parentElement.classList.add("has-image");
-                uploadedImages[index] = e.target.result;
-                imageNames[index] = file.name;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-});
-
-        
-        // Candle interaction
-        candleFlame.addEventListener('click', function() {
-            this.style.animation = 'none';
-            this.style.backgroundColor = '#aaa';
-            this.style.boxShadow = 'none';
-            setTimeout(() => {
-                this.style.animation = 'flicker 1.5s infinite alternate';
-                this.style.backgroundColor = '#ff9800';
-                this.style.boxShadow = '0 0 15px #ff9800';
-            }, 2000);
-        });
-        
-        // Cake interaction
-        cakeContainer.addEventListener('click', function() {
-            this.classList.toggle('active');
-            // Create floating text effect
-            const wishText = document.createElement('div');
-            wishText.textContent = 'Happy Birthday!';
-            wishText.style.position = 'absolute';
-            wishText.style.color = '#ff6b6b';
-            wishText.style.fontWeight = 'bold';
-            wishText.style.fontSize = '1.5rem';
-            wishText.style.pointerEvents = 'none';
-            wishText.style.animation = 'bounce 1s forwards';
-            wishText.style.left = '50%';
-            wishText.style.top = '50%';
-            wishText.style.transform = 'translate(-50%, -50%)';
-            this.appendChild(wishText);
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize EmailJS with your public key
+            emailjs.init("Us2VDUo8xb_yQcUaf");
             
-            setTimeout(() => {
-                wishText.remove();
-            }, 1000);
-        });
-        
-        // Wish button interaction
-        wishBtn.addEventListener('click', function() {
-            if (userName.value.trim() !== '' && wishMessage.value.trim() !== '') {
-                sendEmail();
+            const starsContainer = document.getElementById('starsContainer');
+            const candleFlame = document.getElementById('candleFlame');
+            const cakeContainer = document.getElementById('cake');
+            const wishBtn = document.getElementById('wishBtn');
+            const wishMessage = document.getElementById('wishMessage');
+            const userName = document.getElementById('userName');
+            const photoFrames = document.querySelectorAll('.photo-frame');
+            const photoInputs = document.querySelectorAll('.photo-input');
+            const successModal = document.getElementById('successModal');
+            const errorModal = document.getElementById('errorModal');
+            const closeSuccessModal = document.getElementById('closeSuccessModal');
+            const closeErrorModal = document.getElementById('closeErrorModal');
+            const confettiCanvas = document.getElementById('confettiCanvas');
+            const audioControl = document.getElementById('audioControl');
+            const birthdayMusic = document.getElementById('birthdayMusic');
+            const albumCovers = document.querySelectorAll('.album-cover');
+            const playPauseBtn = document.querySelector('.play-pause');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            const songTitle = document.querySelector('.song-title');
+            const songArtist = document.querySelector('.song-artist');
+            
+            let uploadedImages = [null, null, null, null];
+            let imageNames = ["", "", "", ""];
+            let isPlaying = false;
+            let currentSongIndex = 0;
+            let firstInteraction = false;
+            
+            // Calalily songs data
+            const calalilySongs = [
+                {
+                    title: "Magbalik",
+                    artist: "Calalily",
+                    src: "https://www.bensound.com/bensound-music/bensound-ukulele.mp3"
+                },
+                {
+                    title: "Pasensya Ka Na",
+                    artist: "Calalily",
+                    src: "https://www.bensound.com/bensound-music/bensound-happyrock.mp3"
+                },
+                {
+                    title: "Minamahal",
+                    artist: "Calalily",
+                    src: "https://www.bensound.com/bensound-music/bensound-jazzyfrenchy.mp3"
+                }
+            ];
+            
+            // Create stars
+            function createStars() {
+                const numberOfStars = 50;
+                for (let i = 0; i < numberOfStars; i++) {
+                    const star = document.createElement('div');
+                    star.classList.add('star');
+                    star.style.left = `${Math.random() * 100}%`;
+                    star.style.top = `${Math.random() * 100}%`;
+                    star.style.animationDelay = `${Math.random() * 4}s`;
+                    const size = Math.random();
+                    if (size < 0.3) {
+                        star.classList.add('star-sm');
+                    } else if (size < 0.7) {
+                        star.classList.add('star-md');
+                    } else {
+                        star.classList.add('star-lg');
+                    }
+                    starsContainer.appendChild(star);
+                }
             }
-        });
-        
-        const confirmModal = document.getElementById("confirmModal");
-const confirmYes = document.getElementById("confirmYes");
-const confirmNo = document.getElementById("confirmNo");
-
-wishBtn.addEventListener("click", function () {
-    confirmModal.style.display = "flex"; // show confirmation modal
-});
-
-// If user confirms
-confirmYes.addEventListener("click", function () {
-    confirmModal.style.display = "none"; // close confirmation
-    wishBtn.disabled = true;
-
-    const templateParams = {
-        user_name: userName.value,
-        message: wishMessage.value,
-    };
-
-    emailjs.send("service_cvr97qd", "template_4yhpcv9", templateParams)
-        .then(function (response) {
-            successModal.style.display = "flex"; // show happy GIF
-        }, function (error) {
-            errorModal.style.display = "flex"; // show sad GIF
-        })
-        .finally(() => {
-            wishBtn.disabled = false;
-        });
-});
-
-// If user cancels
-confirmNo.addEventListener("click", function () {
-    confirmModal.style.display = "none";
-});
-
-        // Balloon interaction
-        const balloons = document.querySelectorAll('.balloon');
-        balloons.forEach(balloon => {
-            balloon.addEventListener('click', function() {
+            
+            // Enable/disable send button based on input
+            function toggleSendButton() {
+                if (userName.value.trim() !== '' && wishMessage.value.trim() !== '') {
+                    wishBtn.disabled = false;
+                } else {
+                    wishBtn.disabled = true;
+                }
+            }
+            
+            userName.addEventListener('input', toggleSendButton);
+            wishMessage.addEventListener('input', toggleSendButton);
+            
+            // Photo frame click handler
+            photoFrames.forEach(frame => {
+                frame.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'), 10);
+                    photoInputs[index].click();
+                });
+            });
+            
+            // Photo input change handler
+            photoInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const index = parseInt(this.getAttribute('data-index'), 10);
+                    const file = this.files[0];
+                    
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const preview = document.getElementById(`preview${index}`);
+                            preview.src = e.target.result;
+                            preview.parentElement.classList.add("has-image");
+                            uploadedImages[index] = e.target.result;
+                            imageNames[index] = file.name;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+            
+            // Candle interaction
+            candleFlame.addEventListener('click', function() {
                 this.style.animation = 'none';
-                this.style.transform = 'translateY(-100vh)';
-                this.style.opacity = '0';
-                this.style.transition = 'all 2s ease';
+                this.style.backgroundColor = '#aaa';
+                this.style.boxShadow = 'none';
+                setTimeout(() => {
+                    this.style.animation = 'flicker 1.5s infinite alternate';
+                    this.style.backgroundColor = '#ff9800';
+                    this.style.boxShadow = '0 0 15px #ff9800';
+                }, 2000);
+            });
+            
+            // Cake interaction
+            cakeContainer.addEventListener('click', function() {
+                this.classList.toggle('active');
+                // Create floating text effect
+                const wishText = document.createElement('div');
+                wishText.textContent = 'Happy Birthdaaaaay!';
+                wishText.style.position = 'absolute';
+                wishText.style.color = '#ff6b6b';
+                wishText.style.fontWeight = 'bold';
+                wishText.style.fontSize = '1.5rem';
+                wishText.style.pointerEvents = 'none';
+                wishText.style.animation = 'bounce 1s forwards';
+                wishText.style.left = '50%';
+                wishText.style.top = '50%';
+                wishText.style.transform = 'translate(-50%, -50%)';
+                this.appendChild(wishText);
                 
                 setTimeout(() => {
-                    this.style.animation = 'float 6s ease-in-out infinite';
-                    this.style.transform = 'translateY(0)';
-                    this.style.opacity = '1';
-                    this.style.transition = 'none';
-                }, 3000);
+                    wishText.remove();
+                }, 1000);
             });
-        });
-        
-        // Modal close handlers
-        closeSuccessModal.addEventListener('click', function() {
-            successModal.style.display = 'none';
-        });
-        
-        closeErrorModal.addEventListener('click', function() {
-            errorModal.style.display = 'none';
-        });
-        
-        // Close modal when clicking outside
-        window.addEventListener('click', function(event) {
-            if (event.target === successModal) {
-                successModal.style.display = 'none';
-            }
-            if (event.target === errorModal) {
-                errorModal.style.display = 'none';
-            }
-        });
-        
-        // Send email using EmailJS
-        function sendEmail() {
-            wishBtn.disabled = true;
-            wishBtn.textContent = 'Sending...';
             
-            // Count how many images were uploaded
-            const imageCount = uploadedImages.filter(img => img !== null).length;
-            
-            // Prepare template parameters
-            const templateParams = {
-                to_name: "Clarkielle",
-                from_name: userName.value,
-                message: wishMessage.value,
-                reply_to: "miraclark71@gmail.com",
-                image_count: imageCount,
-                images: imageCount > 0 ? "Yes" : "No"
-            };
-            
-            // Send email
-            emailjs.send('service_cvr97qd', 'template_4yhpcv9', templateParams)
-                .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
-                    successModal.style.display = 'flex';
-                    wishMessage.value = '';
-                    userName.value = '';
-                    
-                    // Reset photo frames
-                    photoFrames.forEach((frame, index) => {
-                        frame.classList.remove('has-image');
-                        uploadedImages[index] = null;
-                        imageNames[index] = "";
-                        document.getElementById(`preview${index}`).src = '';
-                    });
-                })
-                .catch(function(error) {
-                    console.log('FAILED...', error);
-                    errorModal.style.display = 'flex';
-                })
-                .finally(function() {
-                    wishBtn.disabled = false;
-                    wishBtn.textContent = 'Send Wish! 🎂';
+            // Confetti effect - FIXED: Only launches AFTER successful wish sending
+            function launchConfetti() {
+                const canvas = confettiCanvas;
+                const ctx = canvas.getContext('2d');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                
+                const confetti = [];
+                const confettiCount = 150;
+                const gravity = 0.5;
+                const terminalVelocity = 5;
+                const drag = 0.075;
+                const colors = [
+                    { front: '#ff6b6b', back: '#ff8e8e' },
+                    { front: '#ff8e8e', back: '#ff6b6b' },
+                    { front: '#ffffff', back: '#ff8e8e' },
+                    { front: '#ff4081', back: '#ff6b6b' }
+                ];
+                
+                // Resize handler
+                window.addEventListener('resize', function() {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
                 });
-        }
-        
-        createStars();
-    });
-</script>
+                
+                // Confetti class
+                function Confetti() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * -canvas.height;
+                    this.velocity = {
+                        x: Math.random() * 3 - 1.5,
+                        y: Math.random() * 3 + 2
+                    };
+                    this.rotation = Math.random() * 360;
+                    this.rotationSpeed = Math.random() * 5 - 2.5;
+                    this.size = Math.random() * 5 + 5;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.shape = Math.random() > 0.5 ? 'circle' : 'rectangle';
+                }
+                
+                Confetti.prototype.update = function() {
+                    this.velocity.x -= this.velocity.x * drag;
+                    this.velocity.y = Math.min(this.velocity.y + gravity, terminalVelocity);
+                    this.velocity.y -= this.velocity.y * drag;
+                    
+                    this.x += this.velocity.x;
+                    this.y += this.velocity.y;
+                    
+                    this.rotation += this.rotationSpeed;
+                    
+                    if (this.y >= canvas.height) {
+                        this.y = canvas.height;
+                        this.velocity.y = -this.velocity.y * 0.5;
+                    }
+                    
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.x < 0) this.x = canvas.width;
+                };
+                
+                Confetti.prototype.draw = function() {
+                    ctx.beginPath();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.rotation * Math.PI / 180);
+                    
+                    if (this.shape === 'circle') {
+                        ctx.arc(0, 0, this.size, 0, 2 * Math.PI);
+                    } else {
+                        ctx.rect(-this.size / 2, -this.size / 2, this.size, this.size);
+                    }
+                    
+                    ctx.fillStyle = this.color.front;
+                    ctx.fill();
+                    ctx.closePath();
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
+                };
+                
+                // Initialize confetti
+                for (let i = 0; i < confettiCount; i++) {
+                    confetti.push(new Confetti());
+                }
+                
+                // Animation loop
+                function animate() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    confetti.forEach((confetto, index) => {
+                        confetto.update();
+                        confetto.draw();
+                        
+                        if (confetto.y >= canvas.height && Math.random() > 0.99) {
+                            confetti.splice(index, 1);
+                            confetti.push(new Confetti());
+                        }
+                    });
+                    
+                    requestAnimationFrame(animate);
+                }
+                
+                animate();
+                
+                // Stop after 5 seconds
+                setTimeout(() => {
+                    confetti.length = 0;
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }, 5000);
+            }
+            
+            // Music control
+            function toggleAudio() {
+                if (isPlaying) {
+                    birthdayMusic.pause();
+                    audioControl.innerHTML = '<i class="fas fa-music"></i>';
+                    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                } else {
+                    birthdayMusic.play().catch(error => console.log('Autoplay prevented. User must interact first.'));
+                    audioControl.innerHTML = '<i class="fas fa-pause"></i>';
+                    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                }
+                isPlaying = !isPlaying;
+            }
+            
+            // Album cover click handler
+            albumCovers.forEach((cover, index) => {
+                cover.addEventListener('click', function() {
+                    const songSrc = this.getAttribute('data-song');
+                    birthdayMusic.src = songSrc;
+                    currentSongIndex = index;
+                    
+                    // Update song info
+                    songTitle.textContent = calalilySongs[index].title;
+                    songArtist.textContent = calalilySongs[index].artist;
+                    
+                    if (!isPlaying) {
+                        toggleAudio();
+                    } else {
+                        birthdayMusic.play();
+                    }
+                });
+            });
+            
+            // Player controls
+            playPauseBtn.addEventListener('click', toggleAudio);
+            
+            prevBtn.addEventListener('click', function() {
+                currentSongIndex = (currentSongIndex - 1 + calalilySongs.length) % calalilySongs.length;
+                birthdayMusic.src = calalilySongs[currentSongIndex].src;
+                songTitle.textContent = calalilySongs[currentSongIndex].title;
+                songArtist.textContent = calalilySongs[currentSongIndex].artist;
+                birthdayMusic.play();
+                isPlaying = true;
+                audioControl.innerHTML = '<i class="fas fa-pause"></i>';
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                currentSongIndex = (currentSongIndex + 1) % calalilySongs.length;
+                birthdayMusic.src = calalilySongs[currentSongIndex].src;
+                songTitle.textContent = calalilySongs[currentSongIndex].title;
+                songArtist.textContent = calalilySongs[currentSongIndex].artist;
+                birthdayMusic.play();
+                isPlaying = true;
+                audioControl.innerHTML = '<i class="fas fa-pause"></i>';
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            });
+            
+            // Audio control button
+            audioControl.addEventListener('click', function() {
+                if (!firstInteraction) {
+                    firstInteraction = true;
+                }
+                toggleAudio();
+            });
+            
+            // Wish button interaction - REMOVED confetti launch from here
+            wishBtn.addEventListener('click', function() {
+                if (userName.value.trim() !== '' && wishMessage.value.trim() !== '') {
+                    // Show confirmation modal (NO confetti here)
+                    document.getElementById("confirmModal").style.display = "flex";
+                }
+            });
+            
+            const confirmModal = document.getElementById("confirmModal");
+            const confirmYes = document.getElementById("confirmYes");
+            const confirmNo = document.getElementById("confirmNo");
+            
+            // If user confirms - FIXED: Confetti only launches on SUCCESS
+            confirmYes.addEventListener("click", function() {
+                confirmModal.style.display = "none";
+                wishBtn.disabled = true;
+                wishBtn.textContent = 'Sending...';
+                
+                // Count how many images were uploaded
+                const imageCount = uploadedImages.filter(img => img !== null).length;
+                
+                // Prepare template parameters
+                const templateParams = {
+                    to_name: "Clarkielle",
+                    from_name: userName.value,
+                    message: wishMessage.value,
+                    reply_to: "miraclark71@gmail.com",
+                    image_count: imageCount,
+                    images: imageCount > 0 ? "Yes" : "No"
+                };
+                
+                // Send email
+                emailjs.send('service_cvr97qd', 'template_4yhpcv9', templateParams)
+                    .then(function(response) {
+                        console.log('SUCCESS!', response.status, response.text);
+                        // CONFETTI ONLY LAUNCHES HERE ON SUCCESS!
+                        launchConfetti();
+                        successModal.style.display = 'flex';
+                        wishMessage.value = '';
+                        userName.value = '';
+                        
+                        // Reset photo frames
+                        photoFrames.forEach((frame, index) => {
+                            frame.classList.remove('has-image');
+                            uploadedImages[index] = null;
+                            imageNames[index] = "";
+                            document.getElementById(`preview${index}`).src = '';
+                        });
+                    })
+                    .catch(function(error) {
+                        console.log('FAILED...', error);
+                        // NO confetti on error
+                        errorModal.style.display = 'flex';
+                    })
+                    .finally(function() {
+                        wishBtn.disabled = false;
+                        wishBtn.textContent = 'Send Wish! 🎂';
+                    });
+            });
+            
+            // If user cancels
+            confirmNo.addEventListener("click", function() {
+                confirmModal.style.display = "none";
+            });
+            
+            // Balloon interaction
+            const balloons = document.querySelectorAll('.balloon');
+            balloons.forEach(balloon => {
+                balloon.addEventListener('click', function() {
+                    this.style.animation = 'none';
+                    this.style.transform = 'translateY(-100vh)';
+                    this.style.opacity = '0';
+                    this.style.transition = 'all 2s ease';
+                    
+                    setTimeout(() => {
+                        this.style.animation = 'float 6s ease-in-out infinite';
+                        this.style.transform = 'translateY(0)';
+                        this.style.opacity = '1';
+                        this.style.transition = 'none';
+                    }, 3000);
+                });
+            });
+            
+            // Modal close handlers
+            closeSuccessModal.addEventListener('click', function() {
+                successModal.style.display = 'none';
+            });
+            
+            closeErrorModal.addEventListener('click', function() {
+                errorModal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === successModal) {
+                    successModal.style.display = 'none';
+                }
+                if (event.target === errorModal) {
+                    errorModal.style.display = 'none';
+                }
+                if (event.target === confirmModal) {
+                    confirmModal.style.display = 'none';
+                }
+            });
+            
+            createStars();
+            
+            // Enable audio on first user interaction
+            document.body.addEventListener('click', function() {
+                if (!firstInteraction) {
+                    firstInteraction = true;
+                    if (!isPlaying) {
+                        toggleAudio();
+                    }
+                }
+            }, { once: true });
+        });
+    </script>
 </body>
 </html>
